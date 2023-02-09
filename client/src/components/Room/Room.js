@@ -7,7 +7,6 @@ import BottomBar from "../BottomBar/BottomBar";
 import Chat from "../Chat/Chat";
 import { drawMesh,displayIrisPosition,detectBlinkingEyes } from "../../utilities";
 import * as facemesh from "@tensorflow-models/face-landmarks-detection";
-// import Webcam from "react-webcam";
 
 const Room = (props) => {
   const currentUser = sessionStorage.getItem("user");
@@ -39,38 +38,19 @@ const Room = (props) => {
   };
 
   const detect = async (detector) => {
-    // console.log(webcamRef.current.stream);
-    //     MediaStream {id: 'R6ada14A50T7CwaY5L9t884UtPHCUTodN5xn', active: true, onaddtrack: null, onremovetrack: null, onactive: null, …}
-    // active:true
-    // id: "R6ada14A50T7CwaY5L9t884UtPHCUTodN5xn"
-    // onactive: null
-    // onaddtrack :  null
-    // oninactive: null
-    // onremovetrack: null
-    // [[Prototype]]: MediaStream
-
-    // console.log(webcamRef.current.video);
-    // <video autoplay playsinline style="position: absolute; margin-left: auto; margin-right: auto; left: 0px; right: 0px; text-align: center; z-index: 9; width: 640px; height: 480px;"></video>
     if (
       typeof userVideoRef.current !== "undefined" &&
       userVideoRef.current !== null 
       // webcamRef.current.video.readyState === 4
     ) {
       const video = userVideoRef.current;
-      // console.log(video)
       const videoWidth = userVideoRef.current.videoWidth;
       const videoHeight = userVideoRef.current.videoHeight;
 
       userVideoRef.current.width = videoWidth;
       userVideoRef.current.height = videoHeight;
 
-      // canvasRef.current.width = videoWidth;
-      // canvasRef.current.height = videoHeight;
-
       const face = await detector.estimateFaces(video);
-
-      // const ctx = canvasRef.current.getContext("2d");
-
       
       requestAnimationFrame(() => {
         // console.log(face)
