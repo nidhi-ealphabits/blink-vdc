@@ -71,7 +71,7 @@ const Room = (props) => {
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       const filtered = devices.filter((device) => device.kind === "videoinput");
       setVideoDevices(filtered);
-    });
+    }).catch(err=>console.log("getting devices",err));
 
     // Set Back Button Event
     window.addEventListener("popstate", goToBack);
