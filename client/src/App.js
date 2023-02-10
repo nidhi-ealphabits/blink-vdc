@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Main from './components/Main/Main';
 import Room from './components/Room/Room'
 import styled from 'styled-components';
-import Blink from './Blink';
 
 function App() {
   return (
@@ -16,7 +15,6 @@ function App() {
         </Switch>
       </AppContainer>
     </BrowserRouter>
-    {/* <Blink/> */}
     </>
   );
 }
