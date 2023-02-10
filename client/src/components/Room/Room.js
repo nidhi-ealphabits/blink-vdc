@@ -46,7 +46,7 @@ const Room = (props) => {
       typeof userVideoRef.current !== "undefined" &&
       userVideoRef.current !== null
       // webcamRef.current.video.readyState === 4
-    ) {
+    ) { 
       const video = userVideoRef.current;
       const videoWidth = userVideoRef.current.videoWidth;
       const videoHeight = userVideoRef.current.videoHeight;
@@ -70,6 +70,17 @@ const Room = (props) => {
   }, []);
 
   useEffect(() => {
+ // Get Video Devices
+ navigator.mediaDevices
+ .enumerateDevices()
+ .then((devices) => {
+   const filtered = devices.filter(
+     (device) => device.kind === "videoinput"
+   );
+   setVideoDevices(filtered);
+ })
+ .catch((err) => console.log("getting devices", err));
+
     // Set Back Button Event
     window.addEventListener("popstate", goToBack);
 
@@ -156,16 +167,7 @@ const Room = (props) => {
         });
       });
 
-    // Get Video Devices
-    navigator.mediaDevices
-      .enumerateDevices()
-      .then((devices) => {
-        const filtered = devices.filter(
-          (device) => device.kind === "videoinput"
-        );
-        setVideoDevices(filtered);
-      })
-      .catch((err) => console.log("getting devices", err));
+   
     socket.on("FE-toggle-camera", ({ userId, switchTarget }) => {
       const peerIdx = findPeer(userId);
 
