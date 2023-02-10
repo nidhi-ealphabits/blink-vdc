@@ -5,7 +5,11 @@ import socket from "../../socket";
 import VideoCard from "../Video/VideoCard";
 import BottomBar from "../BottomBar/BottomBar";
 import Chat from "../Chat/Chat";
-import { drawMesh,displayIrisPosition,detectBlinkingEyes } from "../../utilities";
+import {
+  drawMesh,
+  displayIrisPosition,
+  detectBlinkingEyes,
+} from "../../utilities";
 import * as facemesh from "@tensorflow-models/face-landmarks-detection";
 
 const Room = (props) => {
@@ -40,7 +44,7 @@ const Room = (props) => {
   const detect = async (detector) => {
     if (
       typeof userVideoRef.current !== "undefined" &&
-      userVideoRef.current !== null 
+      userVideoRef.current !== null
       // webcamRef.current.video.readyState === 4
     ) {
       const video = userVideoRef.current;
@@ -51,7 +55,7 @@ const Room = (props) => {
       userVideoRef.current.height = videoHeight;
 
       const face = await detector.estimateFaces(video);
-      
+
       requestAnimationFrame(() => {
         // console.log(face)
         // drawMesh(face, ctx);
@@ -65,14 +69,7 @@ const Room = (props) => {
     runFaceMesh();
   }, []);
 
-
   useEffect(() => {
-    // Get Video Devices
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      const filtered = devices.filter((device) => device.kind === "videoinput");
-      setVideoDevices(filtered);
-    }).catch(err=>console.log("getting devices",err));
-
     // Set Back Button Event
     window.addEventListener("popstate", goToBack);
 
@@ -159,6 +156,16 @@ const Room = (props) => {
         });
       });
 
+    // Get Video Devices
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        const filtered = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+        setVideoDevices(filtered);
+      })
+      .catch((err) => console.log("getting devices", err));
     socket.on("FE-toggle-camera", ({ userId, switchTarget }) => {
       const peerIdx = findPeer(userId);
 
@@ -180,7 +187,7 @@ const Room = (props) => {
       socket.disconnect();
     };
     // eslint-disable-next-line
-  },[]);
+  }, []);
 
   function createPeer(userId, caller, stream) {
     const peer = new Peer({
